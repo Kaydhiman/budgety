@@ -2,7 +2,6 @@
 //budget controller
 var budgetController = (function() {
 
-    //some code...
 
 })();
 
@@ -11,7 +10,7 @@ var budgetController = (function() {
 //UI controller
 var UIcontroller = (function() {
 
-    var DOMstrings = {
+    var DOMelements = {
         addBtn: document.querySelector('.add__btn'),
         budgetValue: document.querySelector('.add__value'),
         budgetDecription: document.querySelector('.add__description'),
@@ -24,7 +23,19 @@ var UIcontroller = (function() {
 
 
     return {
-        DOMstrngs: DOMstrings
+        DOMelements: DOMelements,
+        getInputs: function() {
+            return {
+                value : parseFloat(DOMelements.budgetValue.value),
+                description : DOMelements.budgetDecription.value,
+                type : DOMelements.budgetType.value
+            }
+        },
+        clearInputs : function() {
+            DOMelements.budgetValue.value = '';
+            DOMelements.budgetDecription.value = '';
+            DOMelements.budgetDecription.focus();
+        }
     }
 
 })();
@@ -33,40 +44,39 @@ var UIcontroller = (function() {
 //global controller
 var controller = (function(budgetCntrl, UIcntrl) {
 
-    var DOM = UIcntrl.DOMstrngs;
+    // Even Listener Controler
+    var crtEventListners = function() {
+        var DOM = UIcntrl.DOMelements;
 
-    var addValue = function() {
-        var value = parseInt(DOM.budgetValue.value);
-        var description = DOM.budgetDecription.value;
-        var type = DOM.budgetType.value;
+        DOM.addBtn.addEventListener('click', ctrAddItem);
 
-        var income, expenses = 0;
-
-        if(type === 'inc' ) {
-            income += value;
-            DOM.budgetIncomeValue.textContent = income;
-
-            DOM.incomeList.insertAdjacentHTML('beforeend', '<div class="item clearfix" id="income-0"><div class="item__description">'+ description +'</div><div class="right clearfix"><div class="item__value">+ '+ value +'</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>')
-        }
-
-        if(type === 'exp' ) {
-            expenses += value;
-            DOM.budgetExpenses.textContent = expenses;
-
-            DOM.expensesList.insertAdjacentHTML('beforeend', '<div class="item clearfix" id="expense-0"><div class="item__description">'+ description +'</div><div class="right clearfix"><div class="item__value">- '+ value +'</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>')
-        }
+        document.addEventListener('keypress', function(e) {
+            if(e.keyCode === 13) {
+                ctrAddItem();
+            }
+        });
     }
 
-    DOM.addBtn.addEventListener('click', addValue);
 
-    document.addEventListener('keypress', function(e) {
+    // Add new item
+    var ctrAddItem = function() {
 
-        if(e.keyCode === 13) {
-            addValue();
+        // get imputs data
+        var inputs = UIcntrl.getInputs();
+
+        console.log(inputs)
+
+        // clear input fields
+        UIcntrl.clearInputs()
+    }
+
+    return {
+        init : function() {
+            crtEventListners();
+            console.log('app started')
         }
-    });
-
-
+    }
 })(budgetController, UIcontroller);
 
 
+controller.init();

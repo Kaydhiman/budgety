@@ -149,9 +149,10 @@ var UIcontroller = (function() {
             }
         },
 
-        // removeListItem: function() {
-        //     DOMelements.container.addEventListener('click', );
-        // },
+        removeListItem: function(selectorId) {
+            var el = document.getElementById(selectorId);
+            el.parentNode.removeChild(el);
+        },
 
         updateBudget: function(obj) {
             DOMelements.budgetLabel.textContent = obj.budget;
@@ -188,6 +189,18 @@ var controller = (function(budgetCntrl, UIcntrl) {
     }
 
 
+    var ctrUpdateBudget = function() {
+        // calculate budget
+        budgetCntrl.calculateBudget()
+
+        // get budget
+        var budget = budgetCntrl.getBudget();
+
+        // update budget to UI
+        UIcntrl.updateBudget(budget);
+    }
+
+
     // Add new item
     var ctrAddItem = function() {
         var inputs, item;
@@ -203,14 +216,9 @@ var controller = (function(budgetCntrl, UIcntrl) {
             UIcntrl.addListItem(item);
         }
 
-        // calculate budget
-        budgetCntrl.calculateBudget()
 
-        // get budget
-        var budget = budgetCntrl.getBudget();
-
-        // update budget to UI
-        UIcntrl.updateBudget(budget);
+        // update budget
+        ctrUpdateBudget();
 
         // clear input fields
         UIcntrl.clearInputs();
@@ -230,7 +238,14 @@ var controller = (function(budgetCntrl, UIcntrl) {
 
                 id = parseInt(splitedId[1]);
 
+                // delete item from budget controller
                 budgetCntrl.deleteItem(type, id);
+
+                // delete item from UI
+                UIcntrl.removeListItem(selectedEleId);
+                        
+                // update budget
+                ctrUpdateBudget();
 
             }
 

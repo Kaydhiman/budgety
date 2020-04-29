@@ -125,11 +125,13 @@ var controller = (function(budgetCntrl, UIcntrl) {
         // get imputs data
         inputs = UIcntrl.getInputs();
 
-        // create new item according there type
-        item = budgetCntrl.addNewItem(inputs);
+        if( inputs.description.length > 0 && !isNaN(inputs.value )) {
+            // create new item according there type
+            item = budgetCntrl.addNewItem(inputs);
 
-        // add new list item to UI
-        UIcntrl.addListItem(inputs);
+            // add new list item to UI
+            UIcntrl.addListItem(inputs);
+        }
 
         // clear input fields
         UIcntrl.clearInputs();

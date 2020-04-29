@@ -16,22 +16,32 @@ var budgetController = (function() {
         this.value = value;
     }
 
-    return {
-        data: {
-            inc: [],
-            exp: [],
-            total: {
-                totalInc: 0,
-                totalExp: 0
-            },
-            budget: 0
-        },
+    var calculateData = function(type) {
+        var sum = 0;
 
+        data[type].forEach(curr => {
+            sum += curr.value;
+        });
+
+        data.total[type] = sum;
+    }
+
+    var data = {
+        inc: [],
+        exp: [],
+        total: {
+            inc: 0,
+            exp: 0
+        },
+        budget: 0
+    }
+
+    return {
         addNewItem: function(obj) {
             var item, id;
 
-            if(budgetController.data[obj.type].length > 0) {
-                id = budgetController.data[obj.type][budgetController.data[obj.type].length - 1].id + 1;
+            if(data[obj.type].length > 0) {
+                id = data[obj.type][data[obj.type].length - 1].id + 1;
             } else {
                 id = 0;
             }
@@ -42,7 +52,15 @@ var budgetController = (function() {
                 item = new Expense(id, obj.type, obj.description, obj.value);
             }
 
-            budgetController.data[obj.type].push(item);
+            data[obj.type].push(item);
+        },
+
+        calculateBudget: function() {
+            calculateData('inc');
+            calculateData('exp');
+        },
+        test: function() {
+            console.log(data);
         }
     }
 
@@ -66,7 +84,9 @@ var UIcontroller = (function() {
 
 
     return {
-        DOMelements: DOMelements,
+        getDOMelements: function() {
+            return DOMelements;
+        },
         getInputs: function() {
             return {
                 value : parseFloat(DOMelements.budgetValue.value),
@@ -87,14 +107,11 @@ var UIcontroller = (function() {
 
                 DOMelements.incomeList.insertAdjacentHTML('beforeend', html)
 
-
             } else if(obj.type === 'exp') {
                 html = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix"><div class="item__value">${obj.value}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`;
 
                 DOMelements.expensesList.insertAdjacentHTML('beforeend', html)
             }
-
-
         }
     }
 
@@ -106,7 +123,7 @@ var controller = (function(budgetCntrl, UIcntrl) {
 
     // Even Listener Controler
     var crtEventListners = function() {
-        var DOM = UIcntrl.DOMelements;
+        var DOM = UIcntrl.getDOMelements();
 
         DOM.addBtn.addEventListener('click', ctrAddItem);
 
@@ -133,17 +150,20 @@ var controller = (function(budgetCntrl, UIcntrl) {
             UIcntrl.addListItem(inputs);
         }
 
+        // calculate budget
+        budgetCntrl.calculateBudget()
+
         // clear input fields
         UIcntrl.clearInputs();
     }
 
     return {
-        init : function() {
+        init: function() {
             crtEventListners();
         }
     }
     
 })(budgetController, UIcontroller);
 
-
+// app initial state
 controller.init();

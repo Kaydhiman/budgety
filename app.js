@@ -54,6 +54,8 @@ var budgetController = (function() {
             }
 
             data[obj.type].push(item);
+
+            return item
         },
 
         calculateBudget: function() {
@@ -72,6 +74,16 @@ var budgetController = (function() {
                 totalExp: data.total.exp,
                 percentage: data.percentage
             }
+        },
+
+        deleteItem: function(type, id) {
+
+            data[type].forEach(function(curr, ind) {
+               if(curr.id === id) {
+                   data[type].splice(ind, 1);
+               }
+            });
+
         },
 
         test: function() {
@@ -98,7 +110,8 @@ var UIcontroller = (function() {
         budgetLabel: document.querySelector('.budget__value'),
         incomeLabel: document.querySelector('.budget__income--value'),
         expenseLabel: document.querySelector('.budget__expenses--value'),
-        percentageLabel: document.querySelector('.budget__expenses--percentage')
+        percentageLabel: document.querySelector('.budget__expenses--percentage'),
+        container: document.querySelector('.container')
     }
 
 
@@ -136,6 +149,10 @@ var UIcontroller = (function() {
             }
         },
 
+        // removeListItem: function() {
+        //     DOMelements.container.addEventListener('click', );
+        // },
+
         updateBudget: function(obj) {
             DOMelements.budgetLabel.textContent = obj.budget;
             DOMelements.incomeLabel.textContent = obj.totalInc;
@@ -166,6 +183,8 @@ var controller = (function(budgetCntrl, UIcntrl) {
                 ctrAddItem();
             }
         });
+
+        DOM.container.addEventListener('click', ctrDeleteItem);
     }
 
 
@@ -181,7 +200,7 @@ var controller = (function(budgetCntrl, UIcntrl) {
             item = budgetCntrl.addNewItem(inputs);
 
             // add new list item to UI
-            UIcntrl.addListItem(inputs);
+            UIcntrl.addListItem(item);
         }
 
         // calculate budget
@@ -195,6 +214,27 @@ var controller = (function(budgetCntrl, UIcntrl) {
 
         // clear input fields
         UIcntrl.clearInputs();
+    }
+
+
+    var ctrDeleteItem = function(e) {
+        if(e.target.classList.value === 'ion-ios-close-outline') {
+            var selectedEleId = e.target.parentNode.parentNode.parentNode.parentNode.id;
+
+            if(selectedEleId) {
+                var splitedId, type, id;
+                
+                splitedId = selectedEleId.split('-');
+
+                type = splitedId[0];
+
+                id = parseInt(splitedId[1]);
+
+                budgetCntrl.deleteItem(type, id);
+
+            }
+
+        }
     }
 
     return {

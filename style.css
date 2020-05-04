@@ -23,16 +23,30 @@ body {
     font-weight: 400;
 }
 
-.right { float: right; }
-.red { color: #FF5049 !important; }
-.red-focus:focus { border: 1px solid #FF5049 !important; }
+.right {     
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    margin-left: auto;
+}
+
+.red {
+    color: #FF5049 !important;
+}
+
+.red-focus:focus {
+    border: 1px solid #FF5049 !important;
+}
 
 /**********************************************
 *** TOP PART
 **********************************************/
 
 .top {
-    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 15px;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(back.png);
     background-size: cover;
     background-position: center;
@@ -40,11 +54,8 @@ body {
 }
 
 .budget {
-    position: absolute;
-    width: 350px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    max-width: 350px;
+    width: 100%;
     color: #fff;
 }
 
@@ -149,8 +160,15 @@ body {
     transition: border 0.3s;
 }
 
-.add__description { width: 400px;}
-.add__value { width: 100px;}
+.add__description {
+    max-width: 400px;
+    width: 100%;
+}
+
+.add__value {
+    max-width: 100px;
+    width: 100%;
+}
 
 .add__btn {
     font-size: 35px;
@@ -164,7 +182,9 @@ body {
     margin-left: 10px;
 }
 
-.add__btn:active { transform: translateY(2px); }
+.add__btn:active {
+    transform: translateY(2px);
+}
 
 .add__type:focus,
 .add__description:focus,
@@ -173,23 +193,33 @@ body {
     border: 1px solid #28B9B5;
 }
 
-.add__btn:focus { outline: none; }
+.add__btn:focus {
+    outline: none;
+}
 
 /***** LISTS *****/
 .container {
-    width: 1000px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 15px;
     margin: 60px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.income,
+.expenses {
+    width: calc(50% - 25px);
 }
 
 .income {
-    float: left;
-    width: 475px;
-    margin-right: 50px;
+    margin-right: 25px;
 }
 
 .expenses {
-    float: left;
-    width: 475px;
+    margin-left: 25px;
 }
 
 h2 {
@@ -199,19 +229,29 @@ h2 {
     margin-bottom: 15px;
 }
 
-.icome__title { color: #28B9B5; }
-.expenses__title { color: #FF5049; }
+.icome__title {
+    color: #28B9B5;
+}
+.expenses__title {
+    color: #FF5049;
+}
 
 .item {
     padding: 13px;
     border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    justify-content: space-between;
 }
 
-.item:first-child { border-top: 1px solid #e7e7e7; }
-.item:nth-child(even) { background-color: #f7f7f7; }
+.item:first-child {
+    border-top: 1px solid #e7e7e7;
+}
+.item:nth-child(even) {
+    background-color: #f7f7f7;
+}
 
 .item__description {
-    float: left;
+    flex: 1;
 }
 
 .item__value {
@@ -244,7 +284,7 @@ h2 {
 
 
 .item__delete {
-    float: left;
+    margin-left: 5px;
 }
 
 .item__delete--btn {
@@ -258,21 +298,48 @@ h2 {
     display: none;
 }
 
-.item__delete--btn:focus { outline: none; }
-.item__delete--btn:active { transform: translateY(2px); }
+.item__delete--btn:focus {
+    outline: none;
+}
+.item__delete--btn:active {
+    transform: translateY(2px);
+}
 
-.item:hover .item__delete--btn { display: block; }
-.item:hover .item__value { transform: translateX(-20px); }
-.item:hover .item__percentage { transform: translateX(-20px); }
-
+.item:hover .item__delete--btn {
+    display: block;
+}
+.item:hover .item__value,
+.item:hover .item__percentage {
+    transform: translateX(-10px);
+}
 
 .unpaid {
     background-color: #FFDAD9 !important;
     cursor: pointer;
     color: #FF5049;
-
 }
 
-.unpaid .item__percentage { box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1); }
-.unpaid:hover .item__description { font-weight: 900; }
+.unpaid .item__percentage {
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+}
 
+.unpaid:hover .item__description {
+    font-weight: 900;
+}
+
+@media screen and (max-width: 767px) {
+    .income,
+    .expenses {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+
+    .container {
+        margin: 30px auto;
+    }
+
+    .item__delete--btn {
+        display: block;
+    }
+}

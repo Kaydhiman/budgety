@@ -64,7 +64,12 @@ var budgetController = (function() {
 
             data.budget = data.total.inc - data.total.exp;
 
-            data.percentage = Math.round((data.total.exp / data.total.inc) * 100);
+            if(data.total.inc !== 0) {
+                data.percentage = Math.round((data.total.exp / data.total.inc) * 100);
+            } else {
+                data.percentage = '---';
+            }
+
         },
 
         getBudget: function() {
@@ -215,7 +220,6 @@ var controller = (function(budgetCntrl, UIcntrl) {
             // add new list item to UI
             UIcntrl.addListItem(item);
         }
-
 
         // update budget
         ctrUpdateBudget();

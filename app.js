@@ -112,10 +112,6 @@ var budgetController = (function() {
                }
             });
 
-        },
-
-        test: function() {
-            console.log(data);
         }
     }
 
@@ -140,7 +136,8 @@ var UIcontroller = (function() {
         expenseLabel: document.querySelector('.budget__expenses--value'),
         percentageLabel: document.querySelector('.budget__expenses--percentage'),
         container: document.querySelector('.container'),
-        itemsPercentageLabels: '.item__percentage'
+        itemsPercentageLabels: '.item__percentage',
+        monthLable: document.querySelector('.budget__title--month')
     }
 
     var nodeListForEch = function(listNode, callBack) {
@@ -182,6 +179,20 @@ var UIcontroller = (function() {
         }
 
         return sign + newNumber + '.' + dec;
+    }
+
+
+    var getCurrentMonthYear = function() {
+        var now, month, year, months;
+
+        now = new Date();
+        month = now.getMonth();
+        year = now.getFullYear();
+
+        months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        return months[month] + ', ' + year;
+
     }
 
     return {
@@ -241,6 +252,10 @@ var UIcontroller = (function() {
             nodeListForEch(labelsList, function(curr, index) {
                 curr.textContent = list[index] + '%';
             });
+        },
+
+        updateMonthYear: function() {
+            DOMelements.monthLable.textContent = getCurrentMonthYear();
         }
     }
 
@@ -349,6 +364,7 @@ var controller = (function(budgetCntrl, UIcntrl) {
     return {
         init: function() {
             crtEventListners();
+            UIcntrl.updateMonthYear();
 
             UIcntrl.updateBudget({
                 budget: 0,

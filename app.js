@@ -222,12 +222,12 @@ var UIcontroller = (function() {
             var html;
 
             if(obj.type === 'inc') {
-                html = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix"><div class="item__value">${styleNumbers(obj.value, obj.type)}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`;
+                html = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix"><div class="item__value">${styleNumbers(obj.value, obj.type)}</div><div class="item__delete"><button class="item__delete--btn"><svg class="icon-cross" xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><path d='M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z' style='fill:none;stroke:#28B9B5;stroke-miterlimit:10;stroke-width:27px'/><line x1='320' y1='320' x2='192' y2='192' style='fill:none;stroke:#28B9B5;stroke-linecap:round;stroke-linejoin:round;stroke-width:27px'/><line x1='192' y1='320' x2='320' y2='192' style='fill:none;stroke:#28B9B5;stroke-linecap:round;stroke-linejoin:round;stroke-width:27px'/></svg></button></div></div></div>`;
 
                 DOMelements.incomeList.insertAdjacentHTML('beforeend', html)
 
             } else if(obj.type === 'exp') {
-                html = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix"><div class="item__value">${styleNumbers(obj.value, obj.type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`;
+                html = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix"><div class="item__value">${styleNumbers(obj.value, obj.type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><svg class="icon-cross" xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><path d='M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z' style='fill:none;stroke:#FF5049;stroke-miterlimit:10;stroke-width:27px'/><line x1='320' y1='320' x2='192' y2='192' style='fill:none;stroke:#FF5049;stroke-linecap:round;stroke-linejoin:round;stroke-width:27px'/><line x1='192' y1='320' x2='320' y2='192' style='fill:none;stroke:#FF5049;stroke-linecap:round;stroke-linejoin:round;stroke-width:27px'/></svg></button></div></div></div>`;
 
                 DOMelements.expensesList.insertAdjacentHTML('beforeend', html)
             }
@@ -349,7 +349,7 @@ var controller = (function(budgetCntrl, UIcntrl) {
 
 
     var ctrDeleteItem = function(e) {
-        if(e.target.classList.value === 'ion-ios-close-outline') {
+        if(e.target.classList.value === 'icon-cross') {
             var selectedEleId = e.target.parentNode.parentNode.parentNode.parentNode.id;
 
             if(selectedEleId) {

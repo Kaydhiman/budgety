@@ -256,6 +256,13 @@ var UIcontroller = (function() {
 
         updateMonthYear: function() {
             DOMelements.monthLable.textContent = getCurrentMonthYear();
+        },
+
+        updateInputColor: function() {
+            DOMelements.budgetType.classList.toggle('red-focus');
+            DOMelements.budgetValue.classList.toggle('red-focus');
+            DOMelements.budgetDecription.classList.toggle('red-focus');
+            DOMelements.addBtn.classList.toggle('red');
         }
     }
 
@@ -278,6 +285,8 @@ var controller = (function(budgetCntrl, UIcntrl) {
         });
 
         DOM.container.addEventListener('click', ctrDeleteItem);
+
+        DOM.budgetType.addEventListener('change', UIcntrl.updateInputColor);
     }
 
 

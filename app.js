@@ -18,7 +18,11 @@ var budgetController = (function() {
     }
 
     Expense.prototype.calcPercentage = function(totalIcome) {
-        this.percentage = (this.value / totalIcome) *  100;
+        if(totalIcome === 0) {
+            this.percentage = -1;    
+        } else{
+            this.percentage = (this.value / totalIcome) *  100;
+        }
     }
 
     Expense.prototype.getPercentage = function() {
@@ -250,7 +254,11 @@ var UIcontroller = (function() {
             var labelsList = document.querySelectorAll(DOMelements.itemsPercentageLabels);
 
             nodeListForEch(labelsList, function(curr, index) {
-                curr.textContent = list[index] + '%';
+                if(list[index] === -1) {
+                    curr.textContent = '---'    ;
+                } else {
+                    curr.textContent = list[index] + '%';
+                }
             });
         },
 
